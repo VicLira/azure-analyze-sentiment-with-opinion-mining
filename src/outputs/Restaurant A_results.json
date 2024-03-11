@@ -1,0 +1,76 @@
+{
+    "restaurant_name": "Restaurant A",
+    "sentiment_analysis": {
+        "The food and service were unacceptable, but the concierge was nice. After talking to them about the quality of the food and the process to get room service, they refunded the money we spent at the restaurant and gave us a voucher for nearby restaurants.": "negative",
+        "The rooms were beautiful. The AC was good and quiet, which was key for us as outside it was 100F and our baby was getting uncomfortable because of the heat. The breakfast was good too with good options and good servicing times. The thing we didn't like was that the toilet in our bathroom was smelly. It could have been that the toilet was broken before we arrived. Either way, it was very uncomfortable. Once we notified the staff, they came and cleaned it and left candles.": "mixed",
+        "Nice rooms! I had a great unobstructed view of the Microsoft campus but bathrooms were old and the toilet was dirty when we arrived. It was close to bus stops and grocery stores. If you want to be close to campus I will recommend it, otherwise, might be better to stay in a cleaner one.": "mixed"
+    },
+    "opinion_mining": {
+        "The food and service were unacceptable, but the concierge was nice. After talking to them about the quality of the food and the process to get room service, they refunded the money we spent at the restaurant and gave us a voucher for nearby restaurants.": [
+            {
+                "target": "food",
+                "assessment": "unacceptable"
+            },
+            {
+                "target": "service",
+                "assessment": "unacceptable"
+            },
+            {
+                "target": "concierge",
+                "assessment": "nice"
+            },
+            {
+                "target": "restaurant",
+                "assessment": "refunded"
+            }
+        ],
+        "The rooms were beautiful. The AC was good and quiet, which was key for us as outside it was 100F and our baby was getting uncomfortable because of the heat. The breakfast was good too with good options and good servicing times. The thing we didn't like was that the toilet in our bathroom was smelly. It could have been that the toilet was broken before we arrived. Either way, it was very uncomfortable. Once we notified the staff, they came and cleaned it and left candles.": [
+            {
+                "target": "rooms",
+                "assessment": "beautiful"
+            },
+            {
+                "target": "AC",
+                "assessment": "good"
+            },
+            {
+                "target": "breakfast",
+                "assessment": "good"
+            },
+            {
+                "target": "options",
+                "assessment": "good"
+            },
+            {
+                "target": "servicing times",
+                "assessment": "good"
+            },
+            {
+                "target": "toilet",
+                "assessment": "like"
+            },
+            {
+                "target": "toilet",
+                "assessment": "broken"
+            }
+        ],
+        "Nice rooms! I had a great unobstructed view of the Microsoft campus but bathrooms were old and the toilet was dirty when we arrived. It was close to bus stops and grocery stores. If you want to be close to campus I will recommend it, otherwise, might be better to stay in a cleaner one.": [
+            {
+                "target": "rooms",
+                "assessment": "Nice"
+            },
+            {
+                "target": "view",
+                "assessment": "great"
+            },
+            {
+                "target": "bathrooms",
+                "assessment": "old"
+            },
+            {
+                "target": "toilet",
+                "assessment": "dirty"
+            }
+        ]
+    }
+}

@@ -1,0 +1,38 @@
+[
+    {
+        "restaurant": "Restaurant A",
+        "reviews": [
+            {
+                "review": "The food and service were unacceptable, but the concierge was nice. After talking to them about the quality of the food and the process to get room service, they refunded the money we spent at the restaurant and gave us a voucher for nearby restaurants."
+            },
+            {
+                "review": "The rooms were beautiful. The AC was good and quiet, which was key for us as outside it was 100F and our baby was getting uncomfortable because of the heat. The breakfast was good too with good options and good servicing times. The thing we didn't like was that the toilet in our bathroom was smelly. It could have been that the toilet was broken before we arrived. Either way, it was very uncomfortable. Once we notified the staff, they came and cleaned it and left candles."
+            },
+            {
+                "review": "Nice rooms! I had a great unobstructed view of the Microsoft campus but bathrooms were old and the toilet was dirty when we arrived. It was close to bus stops and grocery stores. If you want to be close to campus I will recommend it, otherwise, might be better to stay in a cleaner one."
+            }
+        ]
+    },
+    {
+        "restaurant": "Restaurant B",
+        "reviews": [
+            {
+                "review": "The food was excellent, and the service was impeccable. We enjoyed our dining experience thoroughly."
+            },
+            {
+                "review": "The ambiance of the restaurant was lovely, and the staff was very attentive. However, the portion sizes were a bit small for the price."
+            }
+        ]
+    },
+    {
+        "restaurant": "Restaurant C",
+        "reviews": [
+            {
+                "review": "Estive no Restaurant C recentemente e tive uma experi\u00eancia maravilhosa! O ambiente era encantador, com uma decora\u00e7\u00e3o que remete ao mar e \u00e0 natureza. A equipe foi extremamente atenciosa e prestativa durante toda a minha refei\u00e7\u00e3o"
+            },
+            {
+                "review": "Perfeito!"
+            }
+        ]
+    }
+]

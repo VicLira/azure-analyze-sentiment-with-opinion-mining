@@ -1,0 +1,37 @@
+{
+    "restaurant_name": "Restaurant B",
+    "sentiment_analysis": {
+        "The food was excellent, and the service was impeccable. We enjoyed our dining experience thoroughly.": "positive",
+        "The ambiance of the restaurant was lovely, and the staff was very attentive. However, the portion sizes were a bit small for the price.": "mixed"
+    },
+    "opinion_mining": {
+        "The food was excellent, and the service was impeccable. We enjoyed our dining experience thoroughly.": [
+            {
+                "target": "food",
+                "assessment": "excellent"
+            },
+            {
+                "target": "service",
+                "assessment": "impeccable"
+            },
+            {
+                "target": "dining experience",
+                "assessment": "enjoyed"
+            }
+        ],
+        "The ambiance of the restaurant was lovely, and the staff was very attentive. However, the portion sizes were a bit small for the price.": [
+            {
+                "target": "ambiance",
+                "assessment": "lovely"
+            },
+            {
+                "target": "staff",
+                "assessment": "attentive"
+            },
+            {
+                "target": "portion sizes",
+                "assessment": "small"
+            }
+        ]
+    }
+}

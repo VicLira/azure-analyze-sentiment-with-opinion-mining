@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend for Restaurant Reviews</title>
+    <style>
+        /* Estilos CSS aqui */
+    </style>
+</head>
+<body>
+    <h1>Restaurant Reviews</h1>
+    <div id="restaurants">
+        <h2>Lista de Restaurantes</h2>
+        <ul id="restaurantList">
+            <!-- Lista de restaurantes será exibida aqui -->
+        </ul>
+    </div>
+    <hr>
+    <h2>Adicionar Novo Restaurante ou Revisão</h2>
+    <form id="addReviewForm">
+        <label for="restaurantName">Nome do Restaurante:</label>
+        <input type="text" id="restaurantName" name="restaurantName"><br><br>
+        <label for="review">Review:</label><br>
+        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar a lista de restaurantes quando a página é carregada
+            fetch('/list_restaurants')
+                .then(response => response.json())
+                .then(data => {
+                    const restaurantList = document.getElementById('restaurantList');
+                    data.forEach(restaurant => {
+                        const li = document.createElement('li');
+                        li.textContent = restaurant;
+                        restaurantList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Erro ao carregar a lista de restaurantes:', error));
+
+            // Adicionar evento de envio de formulário
+            document.getElementById('addReviewForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                // Obtém os dados do formulário
+                const formData = new FormData(this);
+
+                // Cria um objeto XMLHttpRequest
+                const xhr = new XMLHttpRequest();
+
+                // Define a função de retorno de chamada
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            // Exibe uma mensagem de sucesso
+                            alert(JSON.parse(xhr.responseText).message);
+                        } else {
+                            // Exibe uma mensagem de erro
+                            alert('Erro ao adicionar revisão');
+                        }
+                    }
+                };
+
+                // Abre a conexão e envia os dados do formulário
+                xhr.open('POST', '/add_review', true);
+                xhr.send(formData);
+            });
+        });
+    </script>
+</body>
+</html>
