@@ -31,13 +31,15 @@ Para utilizar as APIs de processamento de linguagem do Azure, é necessário cri
 * Na seção **Ccopie a chave de acesso e o ponto de extremidade. Você precisará deles para usar as APIs de processamento de linguagem.
 * Certifique-se de salvar essas informações em um local seguro.
 
-![Chaves da API Azure Vision](https://raw.githubusercontent.com/VicLira/azure-analyze-sentiment-with-opinion-mining/main/src/imgs_readme/next-steps.png)
+![Chaves da API Azure Vision](https://raw.githubusercontent.com/VicLira/azure-analyze-sentiment-with-opinion-mining/main/src/imgs-readme/next-steps.png)
 
 ### Rodar
 
 * Para rodar esse projeto é necessário clonar o repositório
 * Ir até a pasta src
 * E rodar o comando python server.py or python3 server.py
+
+![Projeto](https://raw.githubusercontent.com/VicLira/azure-analyze-sentiment-with-opinion-mining/main/src/imgs-readme/project.png)
 
 
 ### Recursos Adicionais:
