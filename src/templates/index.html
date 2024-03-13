@@ -5,65 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frontend for Restaurant Reviews</title>
     <style>
-        /* Estilos CSS aqui */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            font-family: 'montserrat';
+        }
+
+        #main {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }   
+
+        .container {
+            width: 100%;
+            max-width: 1024px;
+            height: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+            text-overflow: unset;
+        }
+
+        .col {
+            height: 100%;
+            max-height: 800px;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 10px;
+            overflow: auto;
+        }
+
+        #jsonWrapper {
+            max-height: 800px;
+        }
+
+        #jsonResult {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        textarea {
+            max-height: 200px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Restaurant Reviews</h1>
-    <div id="restaurants">
-        <h2>Lista de Restaurantes</h2>
-        <ul id="restaurantList">
-            <!-- Lista de restaurantes será exibida aqui -->
-        </ul>
-    </div>
-    <hr>
-    <h2>Adicionar Novo Restaurante ou Revisão</h2>
-    <form id="addReviewForm">
-        <label for="restaurantName">Nome do Restaurante:</label>
-        <input type="text" id="restaurantName" name="restaurantName"><br><br>
-        <label for="review">Review:</label><br>
-        <textarea id="review" name="review" rows="4" cols="50"></textarea><br><br>
-        <button type="submit">Enviar</button>
-    </form>
+    <main id="main">
+        <div class="container">
+            <div class="col">
+                <h1>Restaurant Reviews</h1>
+                <div id="restaurants">
+                    <h2>Lista de Restaurantes</h2>
+                    <ul id="restaurantList">
+                        <!-- Lista de restaurantes será exibida aqui -->
+                    </ul>
+                </div>
+                <hr>
+                <h2>Adicionar Novo Restaurante ou Revisão</h2>
+                <form id="addReviewForm">
+                    <label for="restaurantName">Nome do Restaurante:</label>
+                    <input type="text" id="restaurantName" name="restaurantName"><br><br>
+                    <label for="review">Review:</label><br>
+                    <textarea id="review" name="review" rows="4" cols="30"></textarea><br><br>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+            <div class="col">
+                <div id="jsonWrapper">
+                    <div id="jsonResult">
+        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Carregar a lista de restaurantes quando a página é carregada
-            fetch('/list_restaurants')
+           // Definindo a função loadRestaurantAnalysis no escopo global
+           window.loadRestaurantAnalysis = function (restaurant_name) {
+            fetch(`/get_reviews/${restaurant_name}`)
                 .then(response => response.json())
                 .then(data => {
-                    const restaurantList = document.getElementById('restaurantList');
-                    data.forEach(restaurant => {
-                        const li = document.createElement('li');
-                        li.textContent = restaurant;
-                        restaurantList.appendChild(li);
+                    const jsonResult = document.getElementById('jsonResult');
+                    // Limpa a lista antes de adicionar os novos itens
+                    jsonResult.innerHTML = '';
+
+                    // Função para criar uma lista de itens
+                    function createList(items) {
+                        let list = '<ul>';
+                        items.forEach(item => {
+                            list += `<li>${JSON.stringify(item)}</li>`;
+                        });
+                        list += '</ul>';
+                        return list;
+                    }
+
+                    // Formatando as seções do JSON
+                    const sections = [
+                        { sectionName: 'opinion_mining', tagName: 'h2' },
+                        { sectionName: 'sentiment_analysis', tagName: 'h2' }
+                    ];
+
+                    sections.forEach(section => {
+                        const sectionData = data[section.sectionName];
+                        if (sectionData) {
+                            jsonResult.innerHTML += `<${section.tagName}>${section.sectionName}</${section.tagName}>`;
+                            Object.keys(sectionData).forEach(key => {
+                                const value = sectionData[key];
+                                if (Array.isArray(value)) {
+                                    jsonResult.innerHTML += `<p><strong>${key}:</strong>${createList(value)}</p>`;
+                                } else {
+                                    jsonResult.innerHTML += `<p><strong>${key}:</strong> ${JSON.stringify(value)}</p>`;
+                                }
+                            });
+                        }
                     });
                 })
-                .catch(error => console.error('Erro ao carregar a lista de restaurantes:', error));
+                .catch(error => console.error('Erro ao carregar a lista de análises do restaurante:', error));
+        }
 
+
+            // Função para carregar a lista de restaurantes
+            function loadRestaurantList() {
+                fetch('/list_restaurants')
+                    .then(response => response.json())
+                    .then(data => {
+                        const restaurantList = document.getElementById('restaurantList');
+                        // Limpa a lista antes de adicionar os novos itens
+                        restaurantList.innerHTML = '';
+                        data.forEach(restaurant => {
+                            restaurantList.innerHTML += `<li onclick="loadRestaurantAnalysis('${restaurant}')">${restaurant}</li>`;
+                        });
+                    })
+                    .catch(error => console.error('Erro ao carregar a lista de restaurantes:', error));
+            }
+
+            // Carregar a lista de restaurantes quando a página é carregada
+            loadRestaurantList();
+
+    
             // Adicionar evento de envio de formulário
             document.getElementById('addReviewForm').addEventListener('submit', function(event) {
                 event.preventDefault(); // Impede o envio padrão do formulário
-
+    
                 // Obtém os dados do formulário
                 const formData = new FormData(this);
-
+    
                 // Cria um objeto XMLHttpRequest
                 const xhr = new XMLHttpRequest();
-
+    
                 // Define a função de retorno de chamada
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             // Exibe uma mensagem de sucesso
                             alert(JSON.parse(xhr.responseText).message);
+    
+                            // Atualiza a lista de restaurantes após adicionar uma revisão
+                            loadRestaurantList();
                         } else {
                             // Exibe uma mensagem de erro
                             alert('Erro ao adicionar revisão');
                         }
                     }
                 };
-
+    
                 // Abre a conexão e envia os dados do formulário
                 xhr.open('POST', '/add_review', true);
                 xhr.send(formData);

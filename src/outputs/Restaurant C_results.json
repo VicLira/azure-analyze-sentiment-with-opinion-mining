@@ -1,0 +1,22 @@
+{
+    "restaurant_name": "Restaurant C",
+    "sentiment_analysis": {
+        "I was at Restaurant C recently and had a wonderful experience! The atmosphere was charming, with a decor that refers to the sea and nature. The staff was extremely attentive and helpful throughout my meal": "positive"
+    },
+    "opinion_mining": {
+        "I was at Restaurant C recently and had a wonderful experience! The atmosphere was charming, with a decor that refers to the sea and nature. The staff was extremely attentive and helpful throughout my meal": [
+            {
+                "target": "experience",
+                "assessment": "wonderful"
+            },
+            {
+                "target": "atmosphere",
+                "assessment": "charming"
+            },
+            {
+                "target": "staff",
+                "assessment": "attentive"
+            }
+        ]
+    }
+}

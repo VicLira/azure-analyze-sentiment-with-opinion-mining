@@ -1,8 +1,13 @@
+import threading
 from flask import Flask, render_template, request, jsonify
+from main import process_review 
 import os
 import json
 
 app = Flask(__name__)
+
+# Criação de um evento para sinalizar a conclusão do processamento da revisão
+processing_complete = threading.Event()
 
 @app.route('/')
 def index():
@@ -15,6 +20,8 @@ def add_review():
         review_text = request.form['review']
 
         input_file_path = "./inputs/reviews.json"
+        input_path = "./inputs"
+        output_path = "./outputs"
 
         # Se o arquivo JSON já existe, carrega o conteúdo e adiciona a nova revisão
         if os.path.exists(input_file_path):
@@ -46,10 +53,39 @@ def add_review():
         with open(input_file_path, 'w') as f:
             json.dump(data, f, indent=4)
 
-        # Aqui você pode retornar um alerta de sucesso para o front-end
-        return jsonify({'success': True, 'message': 'Revisão adicionada com sucesso!'})
+        # Chama process_review() em uma nova thread
+        threading.Thread(target=process_review_with_event, args=(input_path, output_path)).start()
+
+        # Espera até que o evento de conclusão seja definido (ou seja, o processamento da revisão foi concluído)
+        processing_complete.wait()
+
+        # Atualiza a lista de restaurantes após o processamento da revisão
+        restaurant_names = list_restaurants()
+
+        # Limpa o evento de conclusão para futuros usos
+        processing_complete.clear()
+
+        # Aqui você pode retornar um alerta de sucesso para o front-end, junto com a lista de restaurantes
+        return jsonify({'success': True, 'message': 'Revisão adicionada com sucesso!', 'restaurants': restaurant_names})
+
     except KeyError as e:
         return jsonify({'success': False, 'error': str(e)}), 400
+
+### """
+### FIM DO ADD_REVIEW 
+### """
+    
+def process_review_with_event(input_path, output_path):
+    # Chama a função de processamento da revisão
+    process_review(input_path, output_path)
+
+    # Define o evento de conclusão
+    processing_complete.set()
+
+
+### """
+### COMEÇO DO GET_REVIEW/RESTAURANTE 
+### """
 
 @app.route('/get_reviews/<restaurant_name>', methods=['GET'])
 def get_reviews(restaurant_name):
@@ -71,7 +107,7 @@ def list_restaurants():
             restaurant_name = filename.replace('_results.json', '')
             restaurant_names.append(restaurant_name)
 
-    return jsonify(restaurant_names)
+    return restaurant_names
 
 if __name__ == '__main__':
     app.run(debug=True)
